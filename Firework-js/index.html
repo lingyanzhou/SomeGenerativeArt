@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Firework</title>
+  <meta name="description" content="Firework" />
+  <meta name="author" content="lzhou" />
+  <script src="lib/js/jquery-3.3.1.min.js"></script>
+  <script src="lib/js/matter.min.js"></script>
+  <script src="lib/js/pixi.min.js"></script>
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script src="js/Firework.js"></script>
+  <script src="js/Particle.js"></script>
+  <script src="js/DieStrategy.js"></script>
+  <script src="js/ExplodeStrategy.js"></script>
+  <script src="js/ColorStrategy.js"></script>
+  <script src="js/Charge.js"></script>
+  <script src="js/Shell.js"></script>
+
+  <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0" />
+  <script src=""></script>
+  -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="p-3"></div>
+    <div class="row">
+      <div class="col"><canvas id="game"></canvas></div>
+      <div class="col" id="debug"></div>
+    </div>
+  </div>
+  <script>
+var firework = new Firework('#game', '#debug');
+var intervalId = 0;
+firework.start();
+
+$('#game').click(function () {
+  firework.fireShell();
+});
+
+$(window).focus(function() {
+  intervalId = setInterval(function () {
+    firework.fireShell();
+  }, 500)
+}).blur(function() {
+  intervalId = clearInterval(intervalId);
+});
+
+
+  </script>
+</body>
+</html>

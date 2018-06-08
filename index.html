@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Generative Art</title>
+  <meta name="description" content="Generative Art" />
+  <meta name="author" content="lzhou" />
+  <script>
+      const baseUrl = 'https://lingyanzhou.github.io/SomeGenerativeArt/';
+      const links = [
+        ['Firework','Firework-js'],
+        ['Snowflakes','Snowflakes-js'],
+        ['2D Water Ripple','WaterRipples-sl']
+      ];
+  window.onload = function () {
+    links.forEach(function(x) {
+        var liEle = document.createElement('li');
+        var aEle = document.createElement('a');
+        aEle.innerText = x[0];
+        aEle.setAttribute("href", baseUrl+x[1]);
+        liEle.appendChild(aEle);
+        document.getElementById("linkList").appendChild(liEle)
+    });
+  };
+
+  </script>
+</head>
+<body>
+    <ul id="linkList">
+    </ul>
+</body>
+</html>

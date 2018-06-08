@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Water Ripple Shader</title>
+  <meta name="description" content="Water Ripple Shader" />
+  <meta name="author" content="lzhou" />
+  <script src="lib/js/jquery-3.3.1.min.js"></script>
+  <script src="lib/js/pixi.js"></script>
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script src="js/MultiTetureFilter.js"></script>
+  <script src="js/WaterRipple.js"></script>
+  <script id="waterRippleFrag" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec2 vTextureCoord;
+
+uniform sampler2D uSampler;
+
+uniform vec4 filterArea;
+uniform vec2 rippleSeed;
+
+vec2 mapCoord( vec2 coord )
+{
+   coord *= filterArea.xy;
+
+   return coord;
+}
+
+vec2 unmapCoord( vec2 coord )
+{
+   coord /= filterArea.xy;
+
+   return coord;
+}
+
+void main() {
+  gl_FragColor = vec4(0.,0.,0.,0.);
+  vec4 cur = texture2D(uSampler, vTextureCoord);
+  vec2 coord = mapCoord(vTextureCoord);
+  if (distance(coord, rippleSeed) < 1.) {
+    gl_FragColor.x = cur.y;
+    gl_FragColor.y = 1.;
+  } else {
+    float val = (texture2D(uSampler, unmapCoord(coord + vec2(1., 0.))).y
+      + texture2D(uSampler, unmapCoord(coord + vec2(-1., 0.))).y
+      + texture2D(uSampler, unmapCoord(coord + vec2(0., 1.))).y
+      + texture2D(uSampler, unmapCoord(coord + vec2(0., -1.))).y) / 2.
+      - cur.x;
+    gl_FragColor.x = cur.y;
+    gl_FragColor.y = val - val / 32.;
+  }
+
+}
+  </script>
+  <script id="waterRippleFrag2" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec2 vTextureCoord;
+
+uniform sampler2D uSampler;
+
+void main() {
+  float val = texture2D(uSampler, vTextureCoord).y;
+  gl_FragColor = vec4(val, val, val, val);
+}
+  </script>
+  <script id="waterRippleVert3" type="x-shader/x-fragment">
+  attribute vec2 aVertexPosition;
+  attribute vec2 aTextureCoord;
+
+  uniform mat3 projectionMatrix;
+  uniform mat3 filterMatrix0;
+
+  varying vec2 vTextureCoord;
+  varying vec2 vFilterCoord0;
+
+  void main(void)
+  {
+     gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+     vFilterCoord0 = ( filterMatrix0 * vec3( aTextureCoord, 1.0)  ).xy;
+     vTextureCoord = aTextureCoord;
+  }
+  </script>
+  <script id="waterRippleFrag3" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec2 vTextureCoord;
+varying vec2 vFilterCoord0;
+
+uniform sampler2D uSampler;
+uniform sampler2D mapSampler0;
+
+void main() {
+  vec4 color = texture2D(uSampler, vTextureCoord);
+  float val = texture2D(mapSampler0, vFilterCoord0).y;
+  gl_FragColor = color * (1.-val);
+}
+  </script>
+  <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0" />
+  <script src=""></script>
+  -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col"><canvas id="game"></canvas></div>
+    </div>
+  </div>
+  <script>
+var waterRipple = new WaterRipple('#game', '#waterRippleFrag', '#waterRippleFrag2', '#waterRippleVert3', '#waterRippleFrag3');
+  </script>
+</body>
+</html>
