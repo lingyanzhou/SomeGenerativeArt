@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Fermat Spiral</title>
+  <meta name="description" content="Fermat Spiral" />
+  <meta name="author" content="lzhou" />
+  <script src="lib/js/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script src="js/FermatSpiral.js"></script>
+
+  <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0" />
+  <script src=""></script>
+  -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row" >
+      <div class="col">
+        <form id="fermatSpiralApp" action="javascript:;">
+          <div class="form-row">
+            <button class="form-control" v-on:click="fraction=1.62;">Golden Ratio</button>
+            <button class="form-control" v-on:click="fraction=1.41;">Sqrt(2)</button>
+            <button class="form-control" v-on:click="fraction=3.14;">PI</button>
+          </div>
+          <div class="form-group">
+            <label for="fraction">Fraction of a turn</label>
+            <input type="number" min="0" max="10" step="0.01" class="form-control" id="fraction" placeholder="1" v-model="fraction" />
+          </div>
+          <div class="form-group">
+            <label for="scale">Radius Scale</label>
+            <input type="number" min="1" max="100" step="1" class="form-control" id="scale" placeholder="1" v-model="scale" />
+          </div>
+            <div class="form-group">
+            <label for="size">Circle Size</label>
+            <input type="number" min="1" max="100" step="1" class="form-control" id="size" placeholder="1" v-model="size" />
+          </div>
+        </form>
+      </div>
+      <div class="col"><svg id="main"></svg></div>
+    </div>
+  </div>
+  <script>
+var fermatSpiral = new FermatSpiral('#main');
+var fermatSpiralApp = new Vue({
+  el: '#fermatSpiralApp',
+  data: function () {
+    return {
+      fraction : fermatSpiral.fraction,
+      scale : fermatSpiral.scale,
+      size : fermatSpiral.size
+    };
+  },
+  watch: {
+    fraction : function () {
+      fermatSpiral.fraction = this.fraction;
+      fermatSpiral.draw();
+    },
+    scale : function () {
+      fermatSpiral.scale = this.scale;
+      fermatSpiral.draw();
+    },
+    size : function () {
+      fermatSpiral.size = this.size;
+      fermatSpiral.draw();
+    }
+  }
+});
+
+  </script>
+</body>
+</html>
