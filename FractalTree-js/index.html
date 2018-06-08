@@ -1,0 +1,122 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Fractal Tree</title>
+  <meta name="description" content="Fractal Tree" />
+  <meta name="author" content="lzhou" />
+  <script src="lib/js/jquery-3.3.1.min.js"></script>
+  <script src="lib/js/matter.min.js"></script>
+  <script src="lib/js/perlin.js"></script>
+  <script src="lib/js/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script src="js/FractalTree.js"></script>
+
+  <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0" />
+  <script src=""></script>
+  -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row" >
+      <div class="col">
+        <form id="fractalTreeApp">
+          <div class="form-group">
+            <label for="maxLevel">Recursion Level</label>
+            <input type="range" min="2" max="10" step="1" class="form-control" id="maxLevel" placeholder="7" v-model="maxLevel" />
+          </div>
+          <div class="form-group">
+            <label for="trunkLength">Trunk Length</label>
+            <input type="range" min="50" max="200" step="1" class="form-control" id="trunkLength" placeholder="100" v-model="trunk" />
+          </div>
+          <div class="form-group">
+            <label for="branchRatio1">Branch 1 (to Trunk) Ratio </label>
+            <input type="range" min="0.2" max="1" step="0.1" class="form-control" id="branchRatio1" placeholder="0.6" v-model="branchRatio1" />
+          </div>
+          <div class="form-group">
+            <label for="branchAngle1">Branch 1 Angle (in Radian)</label>
+            <input type="range" min="-1.5" max="1.5" step="0.1" class="form-control" id="branchAngle1" placeholder="1" v-model="branchAngle1" />
+          </div>
+          <div class="form-group">
+            <label for="branchRatio2">Branch 2 Ratio</label>
+            <input type="range" min="0.2" max="1" step="0.1" class="form-control" id="branchRatio2" placeholder="0.6" v-model="branchRatio2" />
+          </div>
+          <div class="form-group">
+            <label for="branchAngle2">Branch 2 Ratio</label>
+            <input type="range" min="-1.5" max="1.5" step="0.1" class="form-control" id="branchAngle2" placeholder="0.6" v-model="branchAngle2" />
+          </div>
+          <div class="form-group">
+            <label for="branchRatio3">Branch 3 Ratio</label>
+            <input type="range" min="0.2" max="1" step="0.1" class="form-control" id="branchRatio3" placeholder="0.6" v-model="branchRatio3" />
+          </div>
+          <div class="form-group">
+            <label for="branchAngle3">Branch 3 Ratio</label>
+            <input type="range" min="-1.5" max="1.5" step="0.1" class="form-control" id="branchAngle3" placeholder="0.6" v-model="branchAngle3" />
+          </div>
+        </form>
+      </div>
+      <div class="col"><canvas id="main"></canvas></div>
+    </div>
+  </div>
+  <script>
+var fractalTree = new FractalTree('#main');
+var fractalTreeApp = new Vue({
+  el: '#fractalTreeApp',
+  data: function () {
+    return {
+      trunk : fractalTree.trunk,
+      branchRatio1 : fractalTree.branchRatio1,
+      branchRatio2 : fractalTree.branchRatio2,
+      branchRatio3 : fractalTree.branchRatio3,
+      branchAngle1 : fractalTree.branchAngle1,
+      branchAngle2 : fractalTree.branchAngle2,
+      branchAngle3 : fractalTree.branchAngle3,
+
+      maxLevel: fractalTree.maxLevel
+    };
+  },
+  watch: {
+    trunk : function () {
+      fractalTree.trunk = this.trunk;
+      fractalTree.draw();
+    },
+    branchRatio1 : function () {
+      fractalTree.branchRatio1 = this.branchRatio1;
+      fractalTree.draw();
+    },
+    branchRatio2 : function () {
+      fractalTree.branchRatio2 = this.branchRatio2;
+      fractalTree.draw();
+    },
+    branchRatio3 : function () {
+      fractalTree.branchRatio3 = this.branchRatio3;
+      fractalTree.draw();
+    },
+    branchAngle1 : function () {
+      fractalTree.branchAngle1 = this.branchAngle1;
+      fractalTree.draw();
+    },
+    branchAngle2 : function () {
+      fractalTree.branchAngle2 = this.branchAngle2;
+      fractalTree.draw();
+    },
+    branchAngle3 : function () {
+      fractalTree.branchAngle3 = this.branchAngle3;
+      fractalTree.draw();
+    },
+    maxLevel : function () {
+      fractalTree.maxLevel = this.maxLevel;
+      fractalTree.draw();
+    }
+  }
+})
+
+  </script>
+</body>
+</html>
