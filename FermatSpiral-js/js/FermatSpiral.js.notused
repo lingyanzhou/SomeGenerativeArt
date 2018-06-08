@@ -1,0 +1,49 @@
+function FermatSpiral(ele, debugEle) {
+  this.app = new PIXI.Application({
+    width: FermatSpiral.WIDTH,
+    height: FermatSpiral.HEIGHT,
+    autoStart: false,
+    view: document.querySelector(ele),
+    backgroundColor: '#000000'
+  });
+
+  this.pen = new PIXI.Graphics();
+  this.app.stage.addChild(this.pen);
+  this.pen.x = FermatSpiral.WIDTH/2;
+  this.pen.y = FermatSpiral.HEIGHT/2;
+
+  this.fraction = 1;
+  this.size = 10;
+  this.scale = 10;
+  this.draw();
+
+  this.app.ticker.add(this.tick, this);
+  this.app.ticker.start();
+}
+
+FermatSpiral.WIDTH = 1000;
+FermatSpiral.HEIGHT = 1000;
+FermatSpiral.MAX_RADIUS = 1000;
+FermatSpiral.COLOR = 0xffffff;
+
+FermatSpiral.prototype.draw = function () {
+  this.pen.clear();
+  var theta = 0;
+  var radius = this.scale * Math.sqrt(theta);
+  var x = radius * Math.cos(theta);
+  var y = radius * Math.sin(theta);
+  while (radius < FermatSpiral.MAX_RADIUS) {
+    this.pen.beginFill(0xffffff, 1); //TODO
+    this.pen.drawCircle(x, y, this.size);
+    this.pen.endFill();
+
+    theta += 2 * Math.PI * this.fraction;
+    radius = this.scale * Math.sqrt(theta);
+    x = radius * Math.cos(theta);
+    y = radius * Math.sin(theta);
+  }
+}
+
+FermatSpiral.prototype.tick = function (dt) {
+  this.app.render();
+};
