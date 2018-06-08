@@ -1,6 +1,6 @@
 # Snow Effect
 
-2D snow effect made with PIXI sprites.
+Water ripple effect with WebGL shader.
 
 ## Demo
 [Demo](https://lingyanzhou.github.io/SomeGenerativeArt/WaterRipples-sl/)
