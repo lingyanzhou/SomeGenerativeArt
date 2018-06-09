@@ -19,6 +19,9 @@
         ['2D Water Ripple','WaterRipples-sl'],
         ['Fractal Tree','FractalTree-js']
       ];
+      links.sort(function (a, b) {
+        return a[0] > b[0];
+      })
   window.onload = function () {
     links.forEach(function(x) {
         var liEle = document.createElement('li');
