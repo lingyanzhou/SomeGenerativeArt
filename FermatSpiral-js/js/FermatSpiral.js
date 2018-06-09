@@ -36,7 +36,6 @@ FermatSpiral.prototype.draw = function () {
     data[i] = {'x':x, 'y': y, 'theta': theta % (Math.PI * 2)};
     i += 1 ;
   }
-  console.log(data.length)
   var circles = this.svg.selectAll('circle')
     .data(data);
   circles.exit().remove();
@@ -45,7 +44,7 @@ FermatSpiral.prototype.draw = function () {
     .transition().duration(1000)
     .style('fill', function(x) {return FermatSpiral.scaleColor(x.theta)})
     .attr('r', this.size)
-    .attr('cx', function(x) {console.log(FermatSpiral.scaleX(x.x)); return FermatSpiral.scaleX(x.x)})
-    .attr('cy', function(x) {console.log(FermatSpiral.scaleY(x.y)); return FermatSpiral.scaleY(x.y)})
+    .attr('cx', function(x) {return FermatSpiral.scaleX(x.x)})
+    .attr('cy', function(x) {return FermatSpiral.scaleY(x.y)})
   console.log(data.length)
 }
