@@ -23,9 +23,9 @@ function FractalTree(ele, debugEle) {
   this.branchRatio1 = 0.6;
   this.branchRatio2 = 0.7;
   this.branchRatio3 = 0.8;
-  this.branchAngle1 = 1;
+  this.branchAngle1 = 0.3;
   this.branchAngle2 = 0.1;
-  this.branchAngle3 = - 1.3;
+  this.branchAngle3 = - 0.3;
 
   this.maxLevel = 7;
   this.draw();

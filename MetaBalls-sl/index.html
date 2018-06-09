@@ -1,0 +1,73 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <title>Meta Balls</title>
+  <meta name="description" content="Meta Balls" />
+  <meta name="author" content="lzhou" />
+  <script src="lib/js/jquery-3.3.1.min.js"></script>
+  <script src="lib/js/pixi.js"></script>
+  <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script src="js/Particle.js"></script>
+  <script src="js/MetaBalls.js"></script>
+  <script id="metaBallsFrag" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec2 vTextureCoord;
+
+#define BALLSIZE %%___BALLSIZE___%%
+uniform vec3 balls[BALLSIZE];
+uniform int ballSize;
+uniform sampler2D uSampler;
+uniform vec4 filterArea;
+
+vec2 mapCoord( vec2 coord )
+{
+   coord *= filterArea.xy;
+
+   return coord;
+}
+
+vec2 unmapCoord( vec2 coord )
+{
+   coord /= filterArea.xy;
+
+   return coord;
+}
+
+void main() {
+  gl_FragColor = vec4(0.,0.,0.,0.);
+  vec4 cur = texture2D(uSampler, vTextureCoord);
+  vec2 coord = mapCoord(vTextureCoord);
+  float val = 0.;
+  for (int i = 0; i< BALLSIZE; i++) {
+    float d = distance(coord, balls[i].xy);
+    if (d <= balls[i].z) {
+      val = 1.;
+    } else {
+      val += balls[i].z / d ;
+    }
+  }
+  gl_FragColor = vec4(val, val, val, 1.);
+}
+  </script>
+  <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0" />
+  <script src=""></script>
+  -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row bg-dark h-100">
+      <div class="col"><canvas id="main"></canvas></div>
+    </div>
+  </div>
+  <script>
+var metaBalls = new MetaBalls('#main', '#metaBallsFrag');
+  </script>
+</body>
+</html>
